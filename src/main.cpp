@@ -1,20 +1,24 @@
 #include <pybind11/pybind11.h>
+#include <iostream>
+#include <string>
+
+#include "ImageManipulation.h"
+
+using namespace cv;
+using namespace std;
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-int add(int i, int j) {
-    return i + j;
-}
-
 namespace py = pybind11;
 
-PYBIND11_MODULE(python_example, m) {
+PYBIND11_MODULE(main, m)
+{
     m.doc() = R"pbdoc(
         Pybind11 example plugin
         -----------------------
 
-        .. currentmodule:: python_example
+        .. currentmodule:: main
 
         .. autosummary::
            :toctree: _generate
@@ -23,16 +27,40 @@ PYBIND11_MODULE(python_example, m) {
            subtract
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-
-        Some other explanation about the add function.
+    m.def("convertImageToGray", &convertImageToGray, R"pbdoc(
+        Convert an image from RGB to Grayscale.
     )pbdoc");
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
+    m.def("changeImageBrightness", &changeImageBrightness, R"pbdoc(
+        Modify the brightness of an image.
+    )pbdoc");
 
-        Some other explanation about the subtract function.
+    m.def("changeImageContrast", &changeImageContrast, R"pbdoc(
+        Modify the contrast of an image.
+    )pbdoc");
+
+    m.def("equalizeImageHistogram", &equalizeImageHistogram, R"pbdoc(
+        Modify the contrast of an image.
+    )pbdoc");
+
+    m.def("homogeneousBlur", &homogeneousBlur, R"pbdoc(
+        Add blur effect to the image.
+    )pbdoc");
+
+    m.def("gaussianBlur", &gaussianBlur, R"pbdoc(
+        Add blur effect to the image.
+    )pbdoc");
+
+    m.def("invertImage", &invertImage, R"pbdoc(
+        Modify the brightness of an image.
+    )pbdoc");
+
+    m.def("erodeImage", &erodeImage, R"pbdoc(
+        Erode the image.
+    )pbdoc");
+
+    m.def("rotateImage", &rotateImage, R"pbdoc(
+        Rotate an image.
     )pbdoc");
 
 #ifdef VERSION_INFO

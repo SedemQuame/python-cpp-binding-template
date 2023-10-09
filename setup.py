@@ -14,15 +14,16 @@ __version__ = "0.0.1"
 #   reproducible builds (https://github.com/pybind/python_example/pull/53)
 
 ext_modules = [
-    Pybind11Extension("python_example",
+    Pybind11Extension(
+        "main",
         ["src/main.cpp"],
-        # Example: passing in the version to the compiled code
-        define_macros = [('VERSION_INFO', __version__)],
-        ),
+        define_macros=[("VERSION_INFO", __version__)],
+        extra_compile_args=["-std=c++11"],
+    ),
 ]
 
 setup(
-    name="python_example",
+    name="main",
     version=__version__,
     author="Sylvain Corlay",
     author_email="sylvain.corlay@gmail.com",
