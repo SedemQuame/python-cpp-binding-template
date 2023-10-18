@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/stlye.css">
+    <title>Image Manipulation App</title>
+</head>
+
+<body>
+    <h1 class="text-center">Image Manipulation App!</h1>
+
+    <div class="row">
+        <div class="col-12 offset-md-3 col-md-6 imgBox">
+            <input type="file" id="fileInput" style="display: none;">
+            <img id="imgUpload" src="{{ url_for('static', filename= 'images/gray.png') }}" alt="imgUpload" srcset=""
+                onclick="document.getElementById('fileInput').click();">
+        </div>
+        <div class="col-12 offset-md-3 col-md-6 gap-2 d-flex justify-content-between">
+            <button id="grayscaleBtn" class="btn btn-sm btn-dark">GrayScale</button>
+            <button id="brightnessBtn" class="btn btn-sm btn-dark">Image Brightness</button>
+            <button id="contrastBtn" class="btn btn-sm btn-dark">Image Contrast</button>
+            <button id="histogramBtn" class="btn btn-sm btn-dark">Image Histogram</button>
+            <button id="homogeneousBlurBtn" class="btn btn-sm btn-dark">Homogeneous Blur</button>
+            <button id="gaussianBlurBtn" class="btn btn-sm btn-dark">Gaussian Blur</button>
+            <button id="invertImageBtn" class="btn btn-sm btn-dark">Invert Image</button>
+            <button id="erodeImageBtn" class="btn btn-sm btn-dark">Erode Image</button>
+            <button id="rotateImageBtn" class="btn btn-sm btn-dark">Rotate Image</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        let selectedFile = null;
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            selectedFile = event.target.files[0];
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                $.ajax({
+                    type: 'POST',
+                    url: '/upload_image',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#imgUpload').attr('src', response.path);
+                    },
+                });
+            }
+        });
+
+        function applyEffect(effect) {
+            var imagePath = $('#imgUpload').attr('src');
+            console.log(imagePath);
+
+            $.ajax({
+                type: "POST",
+                url: `/${effect}`,
+                data: { imagePath: imagePath },
+                success: function (data) {
+                    alert(`Function successful, with data ${data.path}`);
+                    let newImagePath = data.path + '?t=' + new Date().getTime();
+                    $('#imgUpload').attr('src', newImagePath);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX Error:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        $('#grayscaleBtn').click(function () {
+            applyEffect('grayscale');
+        });
+
+        $('#brightnessBtn').click(function () {
+            applyEffect('brightness');
+        });
+
+        $('#contrastBtn').click(function () {
+            applyEffect('contrast');
+        });
+
+        $('#histogramBtn').click(function () {
+            applyEffect('histogram');
+        });
+
+        $('#homogeneousBlurBtn').click(function () {
+            applyEffect('homogeneousBlur');
+        });
+
+        $('#gaussianBlurBtn').click(function () {
+            applyEffect('gaussianBlur');
+        });
+
+        $('#invertImageBtn').click(function () {
+            applyEffect('invertImage');
+        });
+
+        $('#erodeImageBtn').click(function () {
+            applyEffect('erodeImage');
+        });
+
+        $('#rotateImageBtn').click(function () {
+            applyEffect('rotateImage');
+        });
+    </script>
+    </script>
+</body>
+
+</html>

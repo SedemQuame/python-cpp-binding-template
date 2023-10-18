@@ -9,7 +9,6 @@ std::string convertImageToGray(std::string &sourceImagePath)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "grayscaleImage.jpg";
     bool result = false;
     try
     {
@@ -23,11 +22,11 @@ std::string convertImageToGray(std::string &sourceImagePath)
         // Convert the sourceImage to grayscale
         Mat grayscaledImage;
         cvtColor(sourceImage, grayscaledImage, COLOR_BGR2GRAY);
-        result = imwrite(outputFileName, grayscaledImage);
+        result = imwrite(sourceImagePath, grayscaledImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -43,18 +42,17 @@ std::string changeImageBrightness(std::string &sourceImagePath, int deltaBrightn
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "brightenedImage.jpg";
     bool result = false;
     try
     {
         // Convert the brightness for the sourceImage.
         Mat imageWithAlteredBrightness;
         sourceImage.convertTo(imageWithAlteredBrightness, -1, 1, deltaBrightness);
-        result = imwrite(outputFileName, imageWithAlteredBrightness);
+        result = imwrite(sourceImagePath, imageWithAlteredBrightness);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -69,18 +67,17 @@ std::string changeImageContrast(std::string &sourceImagePath, float deltaContras
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "contrastedImage.jpg";
     bool result = false;
     try
     {
         // Convert the contrast of an sourceImage.
         Mat imageWithAlteredContrast;
         sourceImage.convertTo(imageWithAlteredContrast, -1, deltaContrast, 0);
-        result = imwrite(outputFileName, imageWithAlteredContrast);
+        result = imwrite(sourceImagePath, imageWithAlteredContrast);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -95,7 +92,6 @@ std::string equalizeImageHistogram(std::string &sourceImagePath)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "equalizedHistImage.jpg";
     bool result = false;
     try
     {
@@ -105,11 +101,11 @@ std::string equalizeImageHistogram(std::string &sourceImagePath)
         cvtColor(sourceImage, grayscaledImage, COLOR_BGR2GRAY);
         equalizeHist(grayscaledImage, equalizedImage);
 
-        result = imwrite(outputFileName, equalizedImage);
+        result = imwrite(sourceImagePath, equalizedImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -124,18 +120,17 @@ std::string homogeneousBlur(std::string &sourceImagePath, int kernelSize)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "homogeneousBlur.jpg";
     bool result = false;
     try
     {
         // Filter using the homogeneous blur
         Mat blurredImage;
         blur(sourceImage, blurredImage, Size(kernelSize, kernelSize));
-        result = imwrite(outputFileName, blurredImage);
+        result = imwrite(sourceImagePath, blurredImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -150,18 +145,17 @@ std::string gaussianBlur(std::string &sourceImagePath, int kernelSize)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "gaussianBlur.jpg";
     bool result = false;
     try
     {
         // Filter using the homogeneous blur
         Mat blurredImage;
         GaussianBlur(sourceImage, blurredImage, Size(kernelSize, kernelSize), 0);
-        result = imwrite(outputFileName, blurredImage);
+        result = imwrite(sourceImagePath, blurredImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -176,7 +170,6 @@ std::string invertImage(std::string &sourceImagePath)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "invertedImage.jpg";
     bool result = false;
     try
     {
@@ -197,11 +190,11 @@ std::string invertImage(std::string &sourceImagePath)
 
         Mat invertedImage;
         invert(sourceImage, invertedImage, DECOMP_LU);
-        result = imwrite(outputFileName, invertedImage);
+        result = imwrite(sourceImagePath, invertedImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -216,18 +209,17 @@ std::string erodeImage(std::string &sourceImagePath, int kernelSize)
 {
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath = "";
-    std::string outputFileName = "erodedImage.jpg";
     bool result = false;
     try
     {
         // Filter using the homogeneous blur
         Mat erodeImage;
         erode(sourceImage, erodeImage, getStructuringElement(MORPH_RECT, Size(kernelSize, kernelSize)));
-        result = imwrite(outputFileName, erodeImage);
+        result = imwrite(sourceImagePath, erodeImage);
 
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }
@@ -262,7 +254,6 @@ std::string rotateImage(std::string &sourceImagePath, int iAngle)
     // Load an sourceImage from file
     Mat sourceImage = imread(sourceImagePath);
     std::string fullPath;
-    std::string outputFileName = "rotatedImage.jpg";
     bool result = false;
     try
     {
@@ -273,10 +264,10 @@ std::string rotateImage(std::string &sourceImagePath, int iAngle)
         Mat rotatedImage;
         warpAffine(sourceImage, rotatedImage, matRotation, sourceImage.size());
 
-        result = imwrite(outputFileName, rotatedImage);
+        result = imwrite(sourceImagePath, rotatedImage);
         if (result)
         {
-            fullPath = cv::samples::findFile(outputFileName);
+            fullPath = sourceImagePath;
             std::cout << "Saved image to: " << fullPath << std::endl;
         }
     }

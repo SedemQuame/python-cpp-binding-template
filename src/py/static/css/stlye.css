@@ -1,0 +1,13 @@
+.imgBox{
+    height: 50vh;
+    margin-top: 10vh ;
+    margin-bottom: 10vh;
+    background-color: #dfdfdf;
+    border-radius: 8px;
+    padding: 0;
+}
+
+img{
+    height: 100%;
+    width: 100%;
+}

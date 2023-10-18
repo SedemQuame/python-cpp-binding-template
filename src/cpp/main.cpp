@@ -12,13 +12,13 @@ using namespace std;
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(main, m)
+PYBIND11_MODULE(ImageManipulation, m)
 {
     m.doc() = R"pbdoc(
         Pybind11 example plugin
         -----------------------
 
-        .. currentmodule:: main
+        .. currentmodule:: ImageManipulation
 
         .. autosummary::
            :toctree: _generate
